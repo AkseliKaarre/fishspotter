@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import Map from './Map/Map';
 
 function App() {
   return (
@@ -8,6 +9,7 @@ function App() {
         <h1>Fishing Spots</h1>
         <p>Explore and share your favorite fishing spots!</p>
       </header>
+      <Map />
     </div>
   );
 }
