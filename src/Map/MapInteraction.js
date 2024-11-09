@@ -3,7 +3,7 @@ import { MapContainer, Marker, Popup, TileLayer, useMapEvents } from 'react-leaf
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
-// Set default icon options for Leaflet
+// Set default Leaflet marker icon options
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
@@ -11,12 +11,12 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
 });
 
-// Component to handle map clicks
 const MapClickHandler = ({ onMapClick }) => {
+  // This hook will capture clicks on the map and pass the event to onMapClick
   useMapEvents({
     click: (event) => {
       if (onMapClick) {
-        onMapClick(event); // Call the click handler with the event
+        onMapClick(event);
       } else {
         console.error("onMapClick function is not provided");
       }
@@ -39,7 +39,15 @@ const MapInteraction = ({ center, zoom, onMapClick, markers = [] }) => {
       <MapClickHandler onMapClick={onMapClick} />
       {markers.map((marker, index) => (
         <Marker key={index} position={marker.position}>
-          <Popup>{marker.name}</Popup> {/* Display marker name in a popup */}
+          <Popup>
+            <h3>{marker.name}</h3>
+            <p>{marker.details}</p>
+            <p>
+              <strong>Fishing Options:</strong><br />
+              {marker.shoreFishing ? "✅ Good for shore fishing" : "❌ Not suitable for shore fishing"}<br />
+              {marker.boatFishing ? "✅ Good for boat fishing" : "❌ Not suitable for boat fishing"}
+            </p>
+          </Popup>
         </Marker>
       ))}
     </MapContainer>
